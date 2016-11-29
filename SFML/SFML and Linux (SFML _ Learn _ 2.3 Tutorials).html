@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>SFML and Linux (SFML / Learn / 2.3 Tutorials)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <link rel="icon" type="image/ico" href="http://www.sfml-dev.org/images/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/css.css">
+        <link rel="stylesheet" type="text/css" href="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/style.css" title="default" media="screen,print">
+        <link rel="stylesheet" type="text/css" href="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/github.css">
+        <!--[if (gte IE 9)|!(IE)]>
+<!-->
+        <script src="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/piwik.js" async="" defer="defer" type="text/javascript"></script><script src="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/highlight.js"></script>
+        <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<!--<![endif]-->
+    </head>
+    <body id="top">
+        <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1839559-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+        <div id="page">
+            <div id="banner-container">
+                <div id="banner">
+                    <a href="http://www.sfml-dev.org/index.php"><img id="logo" src="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/logo.png" alt="SFML logo"></a>
+                    <ul id="menu">
+                        <li><a href="http://www.sfml-dev.org/learn.php">Learn</a></li>
+                        <li><a href="http://www.sfml-dev.org/download.php">Download</a></li>
+                        <li><a href="http://www.sfml-dev.org/community.php">Community</a></li>
+                        <li><a href="http://www.sfml-dev.org/development.php">Development</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="navigation-container">
+                <div id="navigation">
+                    <ul id="breadcrumbs">
+                    <li><a href="http://www.sfml-dev.org/index.php">Home</a></li><li>»<a href="http://www.sfml-dev.org/learn.php">Learn</a></li><li>»<a href="http://www.sfml-dev.org/tutorials/2.3">2.3 Tutorials</a></li><li>»<a href="http://www.sfml-dev.org/tutorials/2.3/start-linux.php">SFML and Linux</a></li>                    </ul>
+                    <ul id="buttons">
+                        <li><a id="language-fr" href="http://www.sfml-dev.org/tutorials/2.3/start-linux-fr.php" title="Site en français">Français</a></li>
+                        <li><a id="donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2C8CG2AGYSBT4&amp;lc=US" title="Make a donation">Donate</a></li>
+                        <li><a id="flattr" href="https://flattr.com/thing/38063/SFML-multimedia-library" title="Flattr SFML">Flattr</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="content">
+
+<h1>SFML and Linux</h1>
+
+<h2 id="introduction"><a class="h2-link" href="#introduction">Introduction</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    This tutorial is the first one you should read if you're using SFML 
+on Linux. It will explain how to install SFML, and compile projects that
+ use it.
+</p>
+
+<h2 id="installing-sfml"><a class="h2-link" href="#installing-sfml">Installing SFML</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    There are different approaches to the installation of SFML on Linux:
+</p>
+<ul>
+    <li>Install it directly from your distribution's package repository</li>
+    <li>Download the precompiled SDK and manually copy the files</li>
+    <li>Get the source code, build it and install it</li>
+</ul>
+<p>
+    Option 1 is the preferred one; if the version of SFML that you want 
+to install is available in the official repository, then install it 
+using your
+    package manager. For example, on Debian you would do:
+</p>
+<pre><code class="no-highlight">sudo apt-get install libsfml-dev</code></pre>
+<p>
+    Option 3 requires more work: you need to ensure all of SFML's 
+dependencies including their development headers are available, make 
+sure CMake is installed, and manually
+    execute some commands. This will result in a package which is 
+tailored to your system.<br>
+    If you want to go this way, there's a dedicated tutorial on
+    <a class="internal" href="http://www.sfml-dev.org/tutorials/2.3/compile-with-cmake.php" title="How to compile SFML">building SFML yourself</a>.
+</p>
+<p>
+    Finally, option 2 is a good choice for quick installation if SFML is not available as an official package. Download the SDK
+    from the <a class="internal" href="http://www.sfml-dev.org/download.php" title="Go to the download page">download page</a>, unpack it and copy the files to your
+    preferred location: either a separate path in your personal folder (like <em>/home/me/sfml</em>), or a standard path (like <em>/usr/local</em>).
+</p>
+<p>
+    If you already had an older version of SFML installed, make sure that it won't conflict with the new version!
+</p>
+
+<h2 id="compiling-a-sfml-program"><a class="h2-link" href="#compiling-a-sfml-program">Compiling a SFML program</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    In this tutorial we're not going to talk about IDEs such as 
+Code::Blocks or Eclipse. We'll focus on the commands required to compile
+ and link an
+    SFML executable. Writing a complete makefile or configuring a 
+project in an IDE is beyond the scope of this tutorial -- there are 
+better dedicated
+    tutorials for this.<br>
+    If you're using Code::Blocks, you may refer to the
+    <a class="internal" href="http://www.sfml-dev.org/tutorials/2.3/start-cb.php" title="SFML and Code::Blocks">Code::Blocks tutorial for Windows</a>; many things should be similar.
+    You won't have to set the compiler and linker search paths if you installed SFML to one of your system's standard paths.
+</p>
+<p>
+    First, create a source file. For this tutorial we'll name it "main.cpp". Put the following code inside the main.cpp file:
+</p>
+<pre><code class="cpp"><span class="preprocessor">#include &lt;SFML/Graphics.hpp&gt;</span>
+
+<span class="keyword">int</span> main()
+{
+    sf::RenderWindow window(sf::VideoMode(<span class="number">200</span>, <span class="number">200</span>), <span class="string">"SFML works!"</span>);
+    sf::CircleShape shape(<span class="number">100.f</span>);
+    shape.setFillColor(sf::Color::Green);
+
+    <span class="keyword">while</span> (window.isOpen())
+    {
+        sf::Event event;
+        <span class="keyword">while</span> (window.pollEvent(event))
+        {
+            <span class="keyword">if</span> (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(shape);
+        window.display();
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+<p>
+    Now let's compile it:
+</p>
+<pre><code class="no-highlight">g++ -c main.cpp</code></pre>
+<p>
+    In case you installed SFML to a non-standard path, you'll need to 
+tell the compiler where to find the SFML headers (.hpp files):
+</p>
+<pre><code class="no-highlight">g++ -c main.cpp -I<em>&lt;sfml-install-path&gt;</em>/include</code></pre>
+<p>
+    Here, <em>&lt;sfml-install-path&gt;</em> is the directory where you copied SFML, for example <em>/home/me/sfml</em>.
+</p>
+<p>
+    You must then link the compiled file to the SFML libraries in order 
+to get the final executable. SFML is made of 5 modules (system, window, 
+graphics,
+    network and audio), and there's one library for each of them.<br>
+    To link an SFML library, you must add "-lsfml-xxx" to your command 
+line, for example "-lsfml-graphics" for the graphics module
+    (the "lib" prefix and the ".so" extension of the library file name 
+must be omitted).
+</p>
+<pre><code class="no-highlight">g++ main.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system</code></pre>
+<p>
+    If you installed SFML to a non-standard path, you'll need to tell the linker where to find the SFML libraries (.so files):
+</p>
+<pre><code class="no-highlight">g++ main.o -o sfml-app -L<em>&lt;sfml-install-path&gt;</em>/lib -lsfml-graphics -lsfml-window -lsfml-system</code></pre>
+<p>
+    We are now ready to execute the compiled program:
+</p>
+<pre><code class="no-highlight">./sfml-app</code></pre>
+<p>
+    If SFML is not installed in a standard path, you need to tell the 
+dynamic linker where to find the SFML libraries first by specifying 
+LD_LIBRARY_PATH:
+</p>
+<pre><code class="no-highlight">export LD_LIBRARY_PATH=<em>&lt;sfml-install-path&gt;</em>/lib &amp;&amp; ./sfml-app</code></pre>
+<p>
+    If everything works, you should see this in a new window:
+</p>
+<img class="screenshot" src="SFML%20and%20Linux%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/start-linux-app.png" alt="Screenshot of the Hello SFML application" title="Screenshot of the Hello SFML application">
+
+            </div>
+        </div>
+        <div id="footer-container">
+            <div id="footer">
+                SFML is licensed under the terms and conditions of the <a href="http://www.sfml-dev.org/license.php">zlib/png license</a>.<br>
+                Copyright © <a href="mailto:laurent@sfml-dev.org" title="Contact the author">Laurent Gomila</a>
+            </div>
+        </div>
+        <script type="text/javascript">var _paq = _paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function() {var u=(("https:" == document.location.protocol) ? "https" : "http") + "://www.sfml-dev.org/piwik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 1]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})();</script>
+        <noscript><p><img src="http://www.sfml-dev.org/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    
+
+</body></html>

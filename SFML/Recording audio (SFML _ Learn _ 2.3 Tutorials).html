@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Recording audio (SFML / Learn / 2.3 Tutorials)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <link rel="icon" type="image/ico" href="http://www.sfml-dev.org/images/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/css.css">
+        <link rel="stylesheet" type="text/css" href="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/style.css" title="default" media="screen,print">
+        <link rel="stylesheet" type="text/css" href="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/github.css">
+        <!--[if (gte IE 9)|!(IE)]>
+<!-->
+        <script src="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/piwik.js" async="" defer="defer" type="text/javascript"></script><script src="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/highlight.js"></script>
+        <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<!--<![endif]-->
+    </head>
+    <body id="top">
+        <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1839559-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+        <div id="page">
+            <div id="banner-container">
+                <div id="banner">
+                    <a href="http://www.sfml-dev.org/index.php"><img id="logo" src="Recording%20audio%20%28SFML%20_%20Learn%20_%202.3%20Tutorials%29_files/logo.png" alt="SFML logo"></a>
+                    <ul id="menu">
+                        <li><a href="http://www.sfml-dev.org/learn.php">Learn</a></li>
+                        <li><a href="http://www.sfml-dev.org/download.php">Download</a></li>
+                        <li><a href="http://www.sfml-dev.org/community.php">Community</a></li>
+                        <li><a href="http://www.sfml-dev.org/development.php">Development</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="navigation-container">
+                <div id="navigation">
+                    <ul id="breadcrumbs">
+                    <li><a href="http://www.sfml-dev.org/index.php">Home</a></li><li>»<a href="http://www.sfml-dev.org/learn.php">Learn</a></li><li>»<a href="http://www.sfml-dev.org/tutorials/2.3">2.3 Tutorials</a></li><li>»<a href="http://www.sfml-dev.org/tutorials/2.3/audio-recording.php">Recording audio</a></li>                    </ul>
+                    <ul id="buttons">
+                        <li><a id="language-fr" href="http://www.sfml-dev.org/tutorials/2.3/audio-recording-fr.php" title="Site en français">Français</a></li>
+                        <li><a id="donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2C8CG2AGYSBT4&amp;lc=US" title="Make a donation">Donate</a></li>
+                        <li><a id="flattr" href="https://flattr.com/thing/38063/SFML-multimedia-library" title="Flattr SFML">Flattr</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="content">
+
+<h1>Recording audio</h1>
+
+<h2 id="recording-to-a-sound-buffer"><a class="h2-link" href="#recording-to-a-sound-buffer">Recording to a sound buffer</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    The most common use for captured audio data is for it to be saved to a sound buffer (<a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundBuffer.php" title="sf::SoundBuffer documentation"><code>sf::SoundBuffer</code></a>) so that it can either be played
+    or saved to a file.
+</p>
+<p>
+    This can be achieved with the very simple interface of the <a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundBufferRecorder.php" title="sf::SoundBufferRecorder documentation"><code>sf::SoundBufferRecorder</code></a> class:
+</p>
+<pre><code class="cpp"><span class="comment">// first check if an input audio device is available on the system</span>
+<span class="keyword">if</span> (!sf::SoundBufferRecorder::isAvailable())
+{
+    <span class="comment">// error: audio capture is not available on this system</span>
+    ...
+}
+
+<span class="comment">// create the recorder</span>
+sf::SoundBufferRecorder recorder;
+
+<span class="comment">// start the capture</span>
+recorder.start();
+
+<span class="comment">// wait...</span>
+
+<span class="comment">// stop the capture</span>
+recorder.stop();
+
+<span class="comment">// retrieve the buffer that contains the captured audio data</span>
+<span class="keyword">const</span> sf::SoundBuffer&amp; buffer = recorder.getBuffer();
+</code></pre>
+<p>
+    The <code>SoundBufferRecorder::isAvailable</code> static function checks if audio recording is supported by the system. It if returns <code>false</code>,
+    you won't be able to use the <a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundBufferRecorder.php" title="sf::SoundBufferRecorder documentation"><code>sf::SoundBufferRecorder</code></a> class at all.
+</p>
+<p>
+    The <code>start</code> and <code>stop</code> functions are 
+self-explanatory. The capture runs in its own thread, which means that 
+you can do whatever
+    you want between start and stop. After the end of the capture, the 
+recorded audio data is available in a sound buffer that you can get with
+ the
+    <code>getBuffer</code> function.
+</p>
+<p>
+    With the recorded data, you can then:
+</p>
+<ul>
+    <li>Save it to a file
+<pre><code class="cpp">buffer.saveToFile(<span class="string">"my_record.ogg"</span>);
+</code></pre>
+    </li>
+    <li>Play it directly
+<pre><code class="cpp">sf::Sound sound(buffer);
+sound.play();
+</code></pre>
+    </li>
+    <li>
+        Access the raw audio data and analyze it, transform it, etc.
+<pre><code class="cpp"><span class="keyword">const</span> sf::Int16* samples = buffer.getSamples();
+<span class="built_in">std</span>::size_t count = buffer.getSampleCount();
+doSomething(samples, count);
+</code></pre>
+    </li>
+</ul>
+<p class="important">
+    If you want to use the captured audio data after the recorder is destroyed or restarted, don't forget to make a <em>copy</em> of the buffer.
+</p>
+
+<h2 id="selecting-the-input-device"><a class="h2-link" href="#selecting-the-input-device">Selecting the input device</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    If you have multiple sound input devices connected to your computer 
+(for example a microphone, a sound interface (external soundcard) or a
+    webcam microphone) you can specify the device that is used for 
+recording. A sound input device is identified by its name.
+    A <code>std::vector&lt;std::string&gt;</code> containing the names of all connected devices is available through the static
+    <code>SoundBufferRecorder::getAvailableDevices()</code> function. You can then select a device from the list for recording, by passing the
+    chosen device name to the <code>setDevice()</code> method. It is even possible to change the device on the fly (i.e. while recording).
+</p>
+<p>
+    The name of the currently used device can be obtained by calling <code>getDevice()</code>. If you don't choose a device yourself, the default
+    device will be used. Its name can be obtained through the static <code>SoundBufferRecorder::getDefaultDevice()</code> function.
+</p>
+<p>
+    Here is a small example of how to set the input device:
+</p>
+<pre><code class="cpp"><span class="comment">// get the available sound input device names</span>
+<span class="built_in">std</span>::<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;</span> availableDevices = sf::SoundRecorder::getAvailableDevices();
+
+<span class="comment">// choose a device</span>
+<span class="built_in">std</span>::<span class="built_in">string</span> inputDevice = availableDevices[<span class="number">0</span>];
+
+<span class="comment">// create the recorder</span>
+sf::SoundBufferRecorder recorder;
+
+<span class="comment">// set the device</span>
+<span class="keyword">if</span> (!recorder.setDevice(inputDevice))
+{
+    <span class="comment">// error: device selection failed</span>
+    ...
+}
+
+<span class="comment">// use recorder as usual</span>
+</code></pre>
+
+<h2 id="custom-recording"><a class="h2-link" href="#custom-recording">Custom recording</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    If storing the captured data in a sound buffer is not what you want,
+ you can write your own recorder. Doing so will allow you to process the
+    audio data while it is captured, (almost) directly from the 
+recording device. This way you can, for example, stream the captured 
+audio over the
+    network, perform real-time analysis on it, etc.
+</p>
+<p>
+    To write your own recorder, you must inherit from the <a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundRecorder.php" title="sf::SoundRecorder documentation"><code>sf::SoundRecorder</code></a> abstract base class. In fact,
+    <a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundBufferRecorder.php" title="sf::SoundBufferRecorder documentation"><code>sf::SoundBufferRecorder</code></a> is just a built-in specialization of this class.
+</p>
+<p>
+    You only have a single virtual function to override in your derived class: <code>onProcessSamples</code>. It is called every time a new chunk
+    of audio samples is captured, so this is where you implement your specific stuff.
+</p>
+<p>
+    By default Audio samples are provided to the <code>onProcessSamples</code> method every 100 ms. You can change the interval by using the
+    <code>setProcessingInterval</code> method. You may want to use a smaller interval if you want to process the recorded data in real time, for example.
+    Note that this is only a hint and that the actual period may vary, so don't rely on it to implement precise timing.
+</p>
+<p>
+    There are also two additional virtual functions that you can optionally override: <code>onStart</code> and <code>onStop</code>. They are
+    called when the capture starts/stops respectively. They are useful for initialization/cleanup tasks.
+</p>
+<p>
+    Here is the skeleton of a complete derived class:
+</p>
+<pre><code class="cpp"><span class="keyword">class</span> MyRecorder : <span class="keyword">public</span> sf::SoundRecorder
+{
+    <span class="keyword">virtual</span> <span class="keyword">bool</span> onStart() <span class="comment">// optional</span>
+    {
+        <span class="comment">// initialize whatever has to be done before the capture starts</span>
+        ...
+
+        <span class="comment">// return true to start the capture, or false to cancel it</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="keyword">virtual</span> <span class="keyword">bool</span> onProcessSamples(<span class="keyword">const</span> sf::Int16* samples, <span class="built_in">std</span>::size_t sampleCount)
+    {
+        <span class="comment">// do something useful with the new chunk of samples</span>
+        ...
+
+        <span class="comment">// return true to continue the capture, or false to stop it</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="keyword">virtual</span> <span class="keyword">void</span> onStop() <span class="comment">// optional</span>
+    {
+        <span class="comment">// clean up whatever has to be done after the capture is finished</span>
+        ...
+    }
+}
+</code></pre>
+<p>
+    The <code>isAvailable</code>/<code>start</code>/<code>stop</code> functions are defined in the <a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundRecorder.php" title="sf::SoundRecorder documentation"><code>sf::SoundRecorder</code></a> base, and thus
+    inherited in every derived classes. This means that you can use any recorder class exactly the same way as the
+    <a href="http://www.sfml-dev.org/documentation/2.3/classsf_1_1SoundBufferRecorder.php" title="sf::SoundBufferRecorder documentation"><code>sf::SoundBufferRecorder</code></a> class above.
+</p>
+<pre><code class="cpp"><span class="keyword">if</span> (!MyRecorder::isAvailable())
+{
+    <span class="comment">// error...</span>
+}
+
+MyRecorder recorder;
+recorder.start();
+...
+recorder.stop();
+</code></pre>
+
+<h2 id="threading-issues"><a class="h2-link" href="#threading-issues">Threading issues</a><a class="back-to-top" href="#top" title="Top of the page"></a></h2><p>
+    Since recording is done in a separate thread, it is important to know what exactly happens, and where.
+</p>
+<p>
+    <code>onStart</code> will be called directly by the <code>start</code> function, so it is executed in the same thread that called it. However,
+    <code>onProcessSample</code> and <code>onStop</code> will always be called from the internal recording thread that SFML creates.
+</p>
+<p>
+    If your recorder uses data that may be accessed <em>concurrently</em>
+ in both the caller thread and in the recording thread, you have to 
+protect
+    it (with a mutex for example) in order to avoid concurrent access, 
+which may cause undefined behavior -- corrupt data being recorded, 
+crashes, etc.
+</p>
+<p>
+    If you're not familiar enough with threading, you can refer to the
+    <a class="internal" href="http://www.sfml-dev.org/tutorials/2.3/system-thread.php" title="Threading tutorial">corresponding tutorial</a> for more information.
+</p>
+
+            </div>
+        </div>
+        <div id="footer-container">
+            <div id="footer">
+                SFML is licensed under the terms and conditions of the <a href="http://www.sfml-dev.org/license.php">zlib/png license</a>.<br>
+                Copyright © <a href="mailto:laurent@sfml-dev.org" title="Contact the author">Laurent Gomila</a>
+            </div>
+        </div>
+        <script type="text/javascript">var _paq = _paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function() {var u=(("https:" == document.location.protocol) ? "https" : "http") + "://www.sfml-dev.org/piwik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 1]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})();</script>
+        <noscript><p><img src="http://www.sfml-dev.org/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    
+
+</body></html>
